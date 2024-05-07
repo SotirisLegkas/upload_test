@@ -41,6 +41,12 @@ from transformers.models.roberta.modeling_roberta import RobertaPreTrainedModel,
 from custom_models.multi_head import MultiHead, MultiHead_MultiLabel
 from collections import Counter
 
+parser=argparse.ArgumentParser()
+
+parser.add_argument("--input", help="Input dataset with test sentences")
+parser.add_argument("--output", help="Output dataset with model predictions")
+args=parser.parse_args()
+
 #################################################################################################################################################################
 #################################################################################################################################################################
 def compute_positive_weights(df, labels):
@@ -108,7 +114,7 @@ label2id = {label:idx for idx, label in enumerate(labels)}
 #################################################################################################################################################################
 finetuned_model ='SotirisLegkas/context_tokens_no_weights'  #"/home/sotirislegkas/touche/task-1_EL_1e-5_XLM-R-large_threshold_output_dir"
 tokenizer = transformers.AutoTokenizer.from_pretrained(finetuned_model)
-validation_dataset, validation_text_ids, validation_sentence_ids = load_dataset('/home/sotirislegkas/touche/data/final_test', tokenizer)   #'/home/sotirislegkas/touche/data/validation'
+validation_dataset, validation_text_ids, validation_sentence_ids = load_dataset(args.input, tokenizer)   #'/home/sotirislegkas/touche/data/validation'
 # training_dataset, training_text_ids, training_sentence_ids = load_dataset('/home/sotirislegkas/touche/data/final_training', tokenizer)
 
 #################################################################################################################################################################
@@ -250,7 +256,7 @@ for col_name in labels:
 #################################################################################################################################################################
 #################################################################################################################################################################
 
-write_tsv_dataframe(os.path.join('', 'context_tokens_no_weights.tsv'), predictions) #'EL_predictions.tsv' 
+write_tsv_dataframe(os.path.join(args.output, 'context_tokens_no_weights.tsv'), predictions) #'EL_predictions.tsv' 
 
 #################################################################################################################################################################
 #################################################################################################################################################################
