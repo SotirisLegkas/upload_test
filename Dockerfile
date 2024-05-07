@@ -8,5 +8,3 @@ COPY ./data/final_test/sentences.tsv /final_test/sentences.tsv
 WORKDIR /
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
-
-ENTRYPOINT ["python"]
